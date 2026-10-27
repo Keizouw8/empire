@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { signUp } from "#lib/auth-client.ts";
-    import { goto } from "$app/navigation";
 
 	let auth = $state({
 		email: "",
@@ -10,10 +9,10 @@
 
 	async function signup(){
 		await signUp.email({
-			callbackURL: "/",
 			fetchOptions: {
-				onSuccess(){
-					goto("/");
+				onSuccess(data){
+					console.log(data);
+					alert("Check ur email breh")
 				},
 				onError(context: any){
 					alert(context.error.message);

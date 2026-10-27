@@ -7,6 +7,7 @@ import { env as cfEnv } from "cloudflare:workers";
 import type { RequestEvent } from "@sveltejs/kit";
 
 import { schema } from "./db/schema";
+import sendEmail from "./email.ts";
 
 let cachedAuth: App.Auth | undefined;
 let cachedDb: D1Database | undefined;
@@ -19,9 +20,27 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 	const db = drizzle(d1, { schema });
 	const instance = betterAuth({
 		database: drizzleAdapter(db, { provider: "sqlite", schema }),
-		secret,
-		baseURL,
-		emailAndPassword: { enabled: true },
+		secret, baseURL,
+		emailAndPassword: {
+			enabled: true,
+			requireEmailVerification: true
+		},
+		emailVerification: {
+			autoSignInAfterVerification: true,
+			sendOnSignUp: true,
+			async sendVerificationEmail({ user, url }) {
+				await sendEmail({
+					to: user.email,
+					subject: "Verify your email address",
+					text: `Click the link to verify your email: ${url}`
+				});
+			}
+		},
+		onAPIError: {
+			onError(error, ctx) {
+				console.error(error, ctx);
+			}
+		},
 		...options,
 		plugins: [
 			...(options?.plugins || []),

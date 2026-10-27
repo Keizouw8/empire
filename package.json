@@ -35,6 +35,7 @@
 	},
 	"dependencies": {
 		"better-auth": "^1.7.12",
-		"drizzle-orm": "^0.45.4"
+		"drizzle-orm": "^0.45.4",
+		"resend": "^6.35.0"
 	}
 }
