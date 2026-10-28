@@ -17,7 +17,7 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 	if (!d1) throw new Error("Database not found.");
 	if (!options && d1 === cachedDb && cachedAuth) return cachedAuth;
 
-	const db = drizzle(d1, { schema });
+	const db = drizzle(d1);
 	const instance = betterAuth({
 		database: drizzleAdapter(db, { provider: "sqlite", schema }),
 		secret, baseURL,

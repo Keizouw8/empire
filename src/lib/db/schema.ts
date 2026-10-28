@@ -1,4 +1,5 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { defineRelations } from "drizzle-orm";
+import { sqliteTable, primaryKey, text, integer } from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable("user", {
 	id: text("id").primaryKey(),
@@ -46,4 +47,42 @@ export const verification = sqliteTable("verification", {
 	updatedAt: integer("updated_at", { mode: "timestamp" })
 });
 
-export const schema = { user, session, account, verification };
+export const rooms = sqliteTable("rooms", {
+	id: text("id").primaryKey(),
+	name: text("name").notNull(),
+	ownerId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" })
+});
+
+export const roomMembers = sqliteTable("room_members", {
+	roomId: text("room_id").notNull().references(() => rooms.id, { onDelete: "cascade" }),
+	userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" })
+}, (table) => [primaryKey({ columns: [table.roomId, table.userId] })]);
+
+export const relations = defineRelations({user, rooms, roomMembers}, (r) => ({
+	user: {
+		rooms: r.many.rooms({
+			from: r.user.id.through(r.roomMembers.userId),
+			to: r.rooms.id.through(r.roomMembers.roomId)
+		})
+	},
+	rooms: {
+		owner: r.one.user({
+			from: r.rooms.ownerId,
+			to: r.user.id
+		}),
+		members: r.many.user({
+			from: r.rooms.id.through(r.roomMembers.roomId),
+			to: r.user.id.through(r.roomMembers.userId)
+		})
+	}
+}));
+
+export const schema = {
+	user,
+	session,
+	account,
+	verification,
+	rooms,
+	roomMembers,
+	relations
+};
