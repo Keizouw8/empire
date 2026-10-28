@@ -20,3 +20,7 @@
 <span>{data.user.name}</span>
 <i>{data.user.email}</i>
 <button onclick={signout}>sign out</button>
+<h2>rooms</h2>
+{#each data.user.rooms as room}
+	<p>{room.name}</p>
+{/each}
