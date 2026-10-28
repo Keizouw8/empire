@@ -23,6 +23,7 @@
 			"binding": "db",
 			"database_name": "d1-empire",
 			"database_id": "3dd4e7f4-42ea-470b-a09f-7c6b0447dbd4",
+			"migrations_pattern": "./migrations/*/migration.sql",
 			"migrations_dir": "./migrations"
 		}
 	],
