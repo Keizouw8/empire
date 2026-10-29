@@ -8,6 +8,7 @@ import type { RequestEvent } from "@sveltejs/kit";
 
 import { schema } from "./db/schema";
 import sendEmail from "./email.ts";
+import { createEmailVerificationToken } from "better-auth/api";
 
 let cachedAuth: App.Auth | undefined;
 let cachedDb: D1Database | undefined;
@@ -23,17 +24,31 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 		secret, baseURL,
 		emailAndPassword: {
 			enabled: true,
-			requireEmailVerification: true
+			requireEmailVerification: true,
+			revokeSessionsOnPasswordReset: true,
+			async onExistingUserSignUp({ user }) {
+				if (user.emailVerified) return void sendEmail({
+					to: user.email,
+					subject: "Security Alert: Duplicate Sign Up",
+					text: `A user tried to sign up with email: ${user.email}. If this was not you, consider resetting your password.`
+				});
+				let token = await createEmailVerificationToken(secret!, user.email);
+				sendVerificationEmail(user.email, `${baseURL}/verify-email?token=${token}&callbackURL=%2F`);
+			},
+			async sendResetPassword({ user, url }) {
+				sendEmail({
+					to: user.email,
+					subject: "Reset your password",
+					html: `Click the link to reset your password: <a href="${url}">Reset Password</a>`
+				});
+			}
 		},
 		emailVerification: {
 			autoSignInAfterVerification: true,
 			sendOnSignUp: true,
+			sendOnSignIn: true,
 			async sendVerificationEmail({ user, url }) {
-				await sendEmail({
-					to: user.email,
-					subject: "Verify your email address",
-					text: `Click the link to verify your email: ${url}`
-				});
+				await sendVerificationEmail(user.email, url);
 			}
 		},
 		onAPIError: {
@@ -63,6 +78,13 @@ export const auth: App.Auth = new Proxy({} as App.Auth, {
 		return typeof value === "function" ? value.bind(instance) : value;
 	}
 });
+
+async function sendVerificationEmail(to: string, url: string) {
+	return await sendEmail({
+		to, subject: "Verify your email address",
+		html: `Click the link to verify your email: <a href="${url}">Verify Email</a>`
+	});
+}
 
 function resolveAuthContext(source?: App.AuthSource): {
 	d1?: D1Database;
