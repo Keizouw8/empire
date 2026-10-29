@@ -25,7 +25,7 @@
 		await signOut({
 			fetchOptions: {
 				onSuccess(){
-					goto("/auth/signup");
+					window.location.href = "/auth/signup";
 				}
 			}
 		});
