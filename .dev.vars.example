@@ -1,2 +1,3 @@
 BETTER_AUTH_SECRET=
 RESEND_API_KEY=
+EMAIL_FROM=Madum Empire noreply@empire.madum.cc
