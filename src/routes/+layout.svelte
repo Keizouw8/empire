@@ -8,5 +8,5 @@
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
-
+<a href="/">empire</a>
 {@render children()}
