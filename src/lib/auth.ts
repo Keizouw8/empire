@@ -25,6 +25,7 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 		emailAndPassword: {
 			enabled: true,
 			requireEmailVerification: true,
+			revokeSessionsOnPasswordReset: true,
 			async onExistingUserSignUp({ user }) {
 				if (user.emailVerified) return void sendEmail({
 					to: user.email,
