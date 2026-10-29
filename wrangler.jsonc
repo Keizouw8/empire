@@ -29,7 +29,13 @@
 	],
 	"vars": {
 		"EMAIL_FROM": "Madum Empire <noreply@empire.madum.cc>"
-	}
+	},
+	"r2_buckets": [
+		{
+			"bucket_name": "empire",
+			"binding": "r2"
+		}
+	]
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
