@@ -71,6 +71,7 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 	return instance;
 }
 
+
 export const auth: App.Auth = new Proxy({} as App.Auth, {
 	get(_target, prop) {
 		const instance = createAuth();

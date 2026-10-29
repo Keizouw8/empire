@@ -2,6 +2,8 @@
 	import { client, signOut } from "#lib/auth-client.ts";
     import { goto } from "$app/navigation";
 
+    import ProfilePicture from "#lib/components/profilePicture.svelte";
+
     let { data } = $props();
 	$inspect(data.user);
 	
@@ -32,8 +34,11 @@
 <h1>edit profile</h1>
 <button onclick={signout}>sign out</button>
 <h2>edit info</h2>
+<label for="pfp">profile picture</label><br>
+<input id="pfp" type="file" accept="image/*" ><br>
+<ProfilePicture user={data.user} size=80 /><br>
 <label for="name">name</label><br>
-<input id="name" placeholder="name" type="text" bind:value={name}><br>
+<input id="name" type="text" bind:value={name}><br>
 <button onclick={saveInfo}>save</button>
 <h2>reset password</h2>
 <label for="currentpassword">current password</label><br>

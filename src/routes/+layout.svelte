@@ -8,6 +8,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	<title>empire</title>
 </svelte:head>
 {#if page.url.pathname != "/" && !page.url.pathname.startsWith("/auth/")}
 	<a href="/">dashboard</a>
