@@ -35,7 +35,10 @@
 			"bucket_name": "empire",
 			"binding": "r2"
 		}
-	]
+	],
+	"secrets": {
+		"required": ["BETTER_AUTH_SECRET", "RESEND_API_KEY"]
+	}
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

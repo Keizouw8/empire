@@ -6,12 +6,7 @@ import type { RequestEvent } from "@sveltejs/kit";
 declare global {
 	namespace App {
 		interface Platform {
-			env: {
-				db: D1Database;
-				BETTER_AUTH_SECRET?: string;
-				BETTER_AUTH_URL?: string;
-				GAME_ROOM: DurableObjectNamespace;
-			};
+			env: Env;
 			cf: CfProperties;
 			ctx: ExecutionContext;
 		}
