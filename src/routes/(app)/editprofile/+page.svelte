@@ -1,13 +1,13 @@
 <script lang="ts">
+    import { untrack } from "svelte";
+    
 	import { client, signOut } from "#lib/auth-client.ts";
-    import { goto } from "$app/navigation";
-
     import ProfilePicture from "#lib/components/profilePicture.svelte";
 
     let { data } = $props();
 	$inspect(data.user);
 	
-	let name = $state(data.user.name);
+	let name = $state(untrack(() => data.user.name));
 	let currentPassword = $state("");
 	let newPassword = $state("");
 	let confirmPassword = $state("");
