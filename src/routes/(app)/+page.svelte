@@ -1,7 +1,6 @@
 <script lang="ts">
 	import ProfilePicture from "#lib/components/profilePicture.svelte";
     let { data } = $props();
-	$inspect(data.user);
 </script>
 <h1>empire</h1>
 <a href="/editprofile" style="display: flex; align-items: center;">

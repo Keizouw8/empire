@@ -2,8 +2,6 @@
     type Props = { size?: string | number; override?: string, user: App.User | { name: string, image: string | null }, style?: string };
 	let { size, user, style, override }: Props = $props();
 
-	$inspect(user);
-
 	let image = $derived(user.image || "");
 	let username = $derived(user.name || "");
 	let src = $derived(override || image || `https://api.dicebear.com/10.x/initials/svg?seed=${username}`);

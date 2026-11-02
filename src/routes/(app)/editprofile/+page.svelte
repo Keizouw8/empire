@@ -6,7 +6,6 @@
     let { data } = $props();
     
     let user = $state(data.user);
-    $inspect(user);
 
 	let saving = $state(false);
 	let tempPfp: string | undefined = $state();
