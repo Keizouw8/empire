@@ -1,18 +1,43 @@
 <script lang="ts">
-    import { untrack } from "svelte";
     
 	import { client, signOut } from "#lib/auth-client.ts";
     import ProfilePicture from "#lib/components/profilePicture.svelte";
 
     let { data } = $props();
-	$inspect(data.user);
-	
-	let name = $state(untrack(() => data.user.name));
+    
+    let user = $state(data.user);
+    $inspect(user);
+
+	let saving = $state(false);
+	let tempPfp: string | undefined = $state();
 	let currentPassword = $state("");
 	let newPassword = $state("");
 	let confirmPassword = $state("");
 
-	async function saveInfo(){}
+	function setImage(e: Event){
+		let image = (e.target as HTMLInputElement)?.files?.[0];
+		if (image) tempPfp = URL.createObjectURL(image);
+	}
+	
+	async function saveInfo(event: SubmitEvent){
+		event.preventDefault();
+		saving = true;
+		try{
+			let res = await fetch("/api/user/edit", {
+				method: "POST",
+				body: new FormData(event.target as HTMLFormElement)
+			});
+			if (!res.ok) throw new Error(await res.text().catch(() => "") || `Request failed with status ${res.status}`);
+			user = await res.json();
+			if(tempPfp) URL.revokeObjectURL(tempPfp);
+			tempPfp = undefined;
+		} catch (error) {
+			console.error(error);
+			alert(error instanceof Error ? error.message : "Failed to save profile");
+		} finally {
+			saving = false;
+		}
+	}
 
 	async function resetPassword(){
 		if(newPassword != confirmPassword) return alert("confirm password doesn't match password");
@@ -34,12 +59,14 @@
 <h1>edit profile</h1>
 <button onclick={signout}>sign out</button>
 <h2>edit info</h2>
-<label for="pfp">profile picture</label><br>
-<input id="pfp" type="file" accept="image/*" ><br>
-<ProfilePicture user={data.user} size=80 /><br>
-<label for="name">name</label><br>
-<input id="name" type="text" bind:value={name}><br>
-<button onclick={saveInfo}>save</button>
+<form onsubmit={saveInfo}>
+	<label for="pfp">profile picture</label><br>
+	<input id="pfp" type="file" name="pfp" accept="image/*" onchange={setImage}><br>
+	<ProfilePicture user={user} override={tempPfp} size=80 /><br>
+	<label for="name">name</label><br>
+	<input id="name" type="text" name="name" bind:value={data.user.name}><br>
+	<button type="submit" disabled={saving}>save</button>
+</form>
 <h2>reset password</h2>
 <label for="currentpassword">current password</label><br>
 <input type="password" id="currentpassword" bind:value={currentPassword}><br>

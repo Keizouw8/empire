@@ -113,7 +113,7 @@ function resolveAuthContext(source?: App.AuthSource): {
 		const event = source as RequestEvent;
 		d1 = event.platform?.env?.db;
 		secret = event.platform?.env?.BETTER_AUTH_SECRET;
-		baseURL = event.platform?.env?.BETTER_AUTH_URL || event.url?.origin;
+		baseURL = event.url?.origin;
 	}
 	// 3. App.Platform
 	else if (
@@ -125,14 +125,12 @@ function resolveAuthContext(source?: App.AuthSource): {
 		const platform = source as App.Platform;
 		d1 = platform.env?.db;
 		secret = platform.env?.BETTER_AUTH_SECRET;
-		baseURL = platform.env?.BETTER_AUTH_URL;
 	}
 	// 4. Platform env object
 	else if (source && typeof source === "object" && "db" in source) {
 		const env = source as App.Platform["env"];
 		d1 = env.db;
 		secret = env.BETTER_AUTH_SECRET;
-		baseURL = env.BETTER_AUTH_URL;
 	}
 
 	// 5. Try SvelteKit getRequestEvent() if not provided directly
@@ -142,7 +140,7 @@ function resolveAuthContext(source?: App.AuthSource): {
 			if (event) {
 				d1 = event.platform?.env?.db;
 				secret = secret ?? event.platform?.env?.BETTER_AUTH_SECRET;
-				baseURL = baseURL ?? event.platform?.env?.BETTER_AUTH_URL ?? event.url?.origin;
+				baseURL = baseURL ?? event.url?.origin;
 			}
 		} catch {
 			// Outside of active request context
@@ -155,7 +153,6 @@ function resolveAuthContext(source?: App.AuthSource): {
 			if (cfEnv?.db) {
 				d1 = cfEnv.db;
 				secret = secret ?? cfEnv.BETTER_AUTH_SECRET;
-				baseURL = baseURL ?? (cfEnv as any).BETTER_AUTH_URL;
 			}
 		} catch {
 			// Outside of Cloudflare runtime
