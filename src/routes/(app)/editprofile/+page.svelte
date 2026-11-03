@@ -1,5 +1,4 @@
 <script lang="ts">
-    
 	import { client, signOut } from "#lib/auth-client.ts";
     import ProfilePicture from "#lib/components/profilePicture.svelte";
 
@@ -54,9 +53,18 @@
 			}
 		});
 	}
+
+	async function changeEmail(){
+		let newEmail = prompt("New email");
+		if (!newEmail) return;
+		let { data, error } = await client.changeEmail({ newEmail, callbackURL: "/" });
+		if (error || !data?.status) return alert(error?.message ?? "failed to change email");
+		alert(`email change confirmation sent to ${user.email}`);
+	}
 </script>
 <h1>edit profile</h1>
-<button onclick={signout}>sign out</button>
+<p>{user.email}</p>
+<button onclick={changeEmail}>change email</button><button onclick={signout}>sign out</button>
 <h2>edit info</h2>
 <form onsubmit={saveInfo}>
 	<label for="pfp">profile picture</label><br>

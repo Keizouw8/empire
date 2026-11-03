@@ -22,6 +22,18 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 	const instance = betterAuth({
 		database: drizzleAdapter(db, { provider: "sqlite", schema }),
 		secret, baseURL,
+		user: {
+			changeEmail: {
+				enabled: true,
+				async sendChangeEmailConfirmation({ user, newEmail, url, token }) {
+					sendEmail({
+						to: user.email,
+						subject: "Approve Email Change",
+						html: `Click the link to approve the change to ${newEmail}: <a href="${url}">approve change</a>`
+					})
+				}
+			}
+		},
 		emailAndPassword: {
 			enabled: true,
 			requireEmailVerification: true,
