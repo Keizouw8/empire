@@ -23,14 +23,24 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 		database: drizzleAdapter(db, { provider: "sqlite", schema }),
 		secret, baseURL,
 		user: {
+			deleteUser: {
+				enabled: true,
+				async sendDeleteAccountVerification({ user, url }) {
+					await sendEmail({
+						to: user.email,
+						subject: "Delete Account",
+						html: `Click the link to delete your account: <a href="${url}">delete account</a>`
+					});
+				}
+			},
 			changeEmail: {
 				enabled: true,
-				async sendChangeEmailConfirmation({ user, newEmail, url, token }) {
-					sendEmail({
+				async sendChangeEmailConfirmation({ user, newEmail, url }) {
+					await sendEmail({
 						to: user.email,
 						subject: "Approve Email Change",
 						html: `Click the link to approve the change to ${newEmail}: <a href="${url}">approve change</a>`
-					})
+					});
 				}
 			}
 		},
@@ -39,7 +49,7 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 			requireEmailVerification: true,
 			revokeSessionsOnPasswordReset: true,
 			async onExistingUserSignUp({ user }) {
-				if (user.emailVerified) return void sendEmail({
+				if (user.emailVerified) return void await sendEmail({
 					to: user.email,
 					subject: "Security Alert: Duplicate Sign Up",
 					text: `A user tried to sign up with email: ${user.email}. If this was not you, consider resetting your password.`
@@ -48,7 +58,7 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 				sendVerificationEmail(user.email, `${baseURL}/verify-email?token=${token}&callbackURL=%2F`);
 			},
 			async sendResetPassword({ user, url }) {
-				sendEmail({
+				await sendEmail({
 					to: user.email,
 					subject: "Reset your password",
 					html: `Click the link to reset your password: <a href="${url}">Reset Password</a>`

@@ -4,6 +4,7 @@
 
     let { data } = $props();
     
+    // svelte-ignore state_referenced_locally
     let user = $state(data.user);
 
 	let saving = $state(false);
@@ -61,10 +62,18 @@
 		if (error || !data?.status) return alert(error?.message ?? "failed to change email");
 		alert(`email change confirmation sent to ${user.email}`);
 	}
+
+	async function deleteUser(){
+		let { data, error } = await client.deleteUser();
+		if (error || !data?.success) return alert(error?.message ?? "failed to delete user");
+		alert(`delete user confirmation sent to ${user.email}`);
+	}
 </script>
 <h1>edit profile</h1>
 <p>{user.email}</p>
-<button onclick={changeEmail}>change email</button><button onclick={signout}>sign out</button>
+<button onclick={changeEmail}>change email</button>
+<button onclick={deleteUser}>delete user</button>
+<button onclick={signout}>sign out</button>
 <h2>edit info</h2>
 <form onsubmit={saveInfo}>
 	<label for="pfp">profile picture</label><br>
