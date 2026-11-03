@@ -37,7 +37,7 @@
 		}
 	],
 	"secrets": {
-		"required": ["BETTER_AUTH_SECRET", "RESEND_API_KEY"]
+		"required": ["BETTER_AUTH_SECRET", "RESEND_API_KEY", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]
 	}
 	/**
 	 * Smart Placement

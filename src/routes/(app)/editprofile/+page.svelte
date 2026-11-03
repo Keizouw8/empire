@@ -76,9 +76,11 @@
 <button onclick={signout}>sign out</button>
 <h2>edit info</h2>
 <form onsubmit={saveInfo}>
-	<label for="pfp">profile picture</label><br>
-	<input id="pfp" type="file" name="pfp" accept="image/*" onchange={setImage}><br>
-	<ProfilePicture user={user} override={tempPfp} size=80 /><br>
+	<label for="pfp">
+		<p>profile picture</p>
+		<ProfilePicture user={user} override={tempPfp} size=80 />
+	</label><br>
+	<input id="pfp" type="file" name="pfp" accept="image/*" onchange={setImage} hidden>
 	<label for="name">name</label><br>
 	<input id="name" type="text" name="name" bind:value={data.user.name}><br>
 	<button type="submit" disabled={saving}>save</button>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { signUp } from "#lib/auth-client.ts";
+	import { client, signUp } from "#lib/auth-client.ts";
     import { goto } from "$app/navigation";
 
 	let auth = $state({
@@ -25,6 +25,10 @@
 			...auth
 		});
 	}
+
+	async function google(){
+		await client.signIn.social({ provider: "google" });
+	}
 </script>
 <h1>sign up</h1>
 <label for="name">name</label><br>
@@ -35,5 +39,5 @@
 <input type="password" id="password" bind:value={auth.password}><br>
 <label for="password">confirm password</label><br>
 <input type="password" id="confirmpassword" bind:value={confirmPassword}><br>
-<button onclick={signup}>submit</button><br>
+<button onclick={signup}>submit</button><button onclick={google}>sign in with google</button><br>
 <a href="/auth/signin">sign in</a>

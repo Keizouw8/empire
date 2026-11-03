@@ -33,12 +33,16 @@
 			...auth
 		});
 	}
+
+	async function google(){
+		await client.signIn.social({ provider: "google" });
+	}
 </script>
 <h1>sign in</h1>
 <label for="email">email</label><br>
 <input type="email" id="email" bind:value={auth.email}><br>
 <label for="password">password</label><br>
 <input type="password" id="password" bind:value={auth.password}><br>
-<button onclick={signup}>submit</button><button onclick={resetPassword}>reset password</button>
-<br>
+<button onclick={signup}>submit</button><button onclick={google}>sign in with google</button><br>
+<button onclick={resetPassword}>reset password</button><br>
 <a href="/auth/signup">sign up</a>

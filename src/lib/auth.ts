@@ -73,6 +73,12 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 				await sendVerificationEmail(user.email, url);
 			}
 		},
+		socialProviders: {
+			google: {
+				clientId: (cfEnv as any)?.GOOGLE_CLIENT_ID || process.env?.GOOGLE_CLIENT_ID,
+				clientSecret: (cfEnv as any)?.GOOGLE_CLIENT_SECRET || process.env?.GOOGLE_CLIENT_SECRET
+			}
+		},
 		onAPIError: {
 			onError(error, ctx) {
 				console.error(error, ctx);
