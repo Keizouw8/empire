@@ -22,6 +22,12 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 	const instance = betterAuth({
 		database: drizzleAdapter(db, { provider: "sqlite", schema }),
 		secret, baseURL,
+		account: {
+			accountLinking: {
+				enabled: true,
+				trustedProviders: ["google"]
+			}
+		},
 		user: {
 			deleteUser: {
 				enabled: true,

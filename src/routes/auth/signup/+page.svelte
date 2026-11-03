@@ -27,7 +27,7 @@
 	}
 
 	async function google(){
-		await client.signIn.social({ provider: "google" });
+		await client.signIn.social({ provider: "google", callbackURL: "/" });
 	}
 </script>
 <h1>sign up</h1>

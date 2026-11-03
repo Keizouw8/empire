@@ -10,15 +10,10 @@
 <img
 	height={size || 40}
 	alt="{username} profile picture"
+	onerror={({ currentTarget }) => { (currentTarget as HTMLImageElement).src = fallbackSrc; }}
+	referrerpolicy="no-referrer"
 	{src}
 	{style}
-	referrerpolicy="no-referrer"
-	onerror={(e) => {
-		const target = e.currentTarget as HTMLImageElement;
-		if (target.src !== fallbackSrc) {
-			target.src = fallbackSrc;
-		}
-	}}
 >
 <style>
 	img{
