@@ -9,6 +9,7 @@
 <img height={size || 40} alt="{username} profile picture" {src} {style} >
 <style>
 	img{
+		aspect-ratio: 1;
 		border-radius: 50%;
 	}
 </style>
