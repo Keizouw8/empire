@@ -51,7 +51,7 @@ export const verification = sqliteTable("verification", {
 });
 
 export const rooms = sqliteTable("rooms", {
-	id: text("id").primaryKey(),
+	id: text("id").primaryKey().$defaultFn(() => Bun.randomUUIDv7()),
 	name: text("name").notNull(),
 	ownerId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" })
 });
