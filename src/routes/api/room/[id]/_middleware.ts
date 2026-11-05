@@ -13,7 +13,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	});
 	
 	if (!room) throw error(404, "Room not found");
-	if (!room.members.some((m) => m.id == user.id)) throw error(401, "User has no access to room");
+	if (!room.members.some((m) => m.id == user.id)) throw error(403, "User has no access to room");
 	
 	event.locals.room = room;
 	return resolve(event);
