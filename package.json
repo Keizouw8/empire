@@ -2,6 +2,7 @@
 	"name": "empire",
 	"private": true,
 	"version": "0.0.1",
+	"packageManager": "bun@1.4.4",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -36,6 +37,7 @@
 	"dependencies": {
 		"better-auth": "^1.7.12",
 		"drizzle-orm": "^1.0.0-rc.5",
-		"resend": "^6.35.0"
+		"resend": "^6.35.0",
+		"uuidv7": "^1.2.1"
 	}
 }

@@ -1,4 +1,4 @@
-import { randomUUIDv7 } from "crypto";
+import { uuidv7 } from "uuidv7";
 import { defineRelations } from "drizzle-orm";
 import { sqliteTable, primaryKey, text, integer } from "drizzle-orm/sqlite-core";
 
@@ -52,7 +52,7 @@ export const verification = sqliteTable("verification", {
 });
 
 export const rooms = sqliteTable("rooms", {
-	id: text("id").primaryKey().$defaultFn(() => randomUUIDv7()),
+	id: text("id").primaryKey().$defaultFn(() => uuidv7()),
 	name: text("name").notNull(),
 	ownerId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" })
 });
