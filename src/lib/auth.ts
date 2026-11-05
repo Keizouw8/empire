@@ -6,7 +6,7 @@ import { getRequestEvent } from "$app/server";
 import { env as cfEnv } from "cloudflare:workers";
 import type { RequestEvent } from "@sveltejs/kit";
 
-import { schema } from "./db/schema";
+import { users, accounts, sessions, verification } from "./db/schema";
 import sendEmail from "./email.ts";
 import { createEmailVerificationToken } from "better-auth/api";
 
@@ -20,7 +20,15 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 
 	const db = drizzle(d1);
 	const instance = betterAuth({
-		database: drizzleAdapter(db, { provider: "sqlite", schema }),
+		database: drizzleAdapter(db, {
+			provider: "sqlite",
+			schema: {
+				user: users,
+				account: accounts,
+				session: sessions,
+				verification
+			}
+		}),
 		secret, baseURL,
 		account: {
 			accountLinking: {

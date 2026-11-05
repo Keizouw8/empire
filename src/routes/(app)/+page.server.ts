@@ -5,7 +5,7 @@ export const load: PageServerLoad = async ({ locals, platform }) => {
 	if (!locals.user) return { session: locals.session, user: null };
 
 	const db = getDB(platform?.env?.db);
-	const user = await db.query.user.findFirst({
+	const user = await db.query.users.findFirst({
 		where: { id: locals.user.id },
 		with: { rooms: true }
 	});

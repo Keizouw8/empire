@@ -8,7 +8,7 @@ export const POST: RequestHandler = async function ({ locals: { room }, request 
 	if (!body.email) throw error(400, "body.email undefined");
 
 	let db = getDB();
-	let user = await db.query.user.findFirst({ where: { email: body.email } });
+	let user = await db.query.users.findFirst({ where: { email: body.email } });
 	if (!user) throw error(400, "no user with email");
 	await db.insert(roomMembers).values({ userId: user.id, roomId: room.id });
 	

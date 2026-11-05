@@ -14,7 +14,7 @@ declare global {
 			user: User | null;
 			session: Session | null;
 			room: typeof import("$lib/db/schema").rooms.$inferSelect & {
-				members: (typeof import("$lib/db/schema").user.$inferSelect)[]
+				members: (typeof import("$lib/db/schema").users.$inferSelect)[]
 			}
 		}
 
@@ -32,10 +32,10 @@ declare global {
 			  }
 			| undefined;
 
-		type User = typeof import("$lib/db/schema").user.$inferSelect;
-		type NewUser = typeof import("$lib/db/schema").user.$inferInsert;
-		type Session = typeof import("$lib/db/schema").session.$inferSelect;
-		type Account = typeof import("$lib/db/schema").account.$inferSelect;
+		type User = typeof import("$lib/db/schema").users.$inferSelect;
+		type NewUser = typeof import("$lib/db/schema").users.$inferInsert;
+		type Session = typeof import("$lib/db/schema").sessions.$inferSelect;
+		type Account = typeof import("$lib/db/schema").accounts.$inferSelect;
 		type Verification = typeof import("$lib/db/schema").verification.$inferSelect;
 	}
 
