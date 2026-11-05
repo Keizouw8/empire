@@ -1,5 +1,7 @@
 import { defineConfig } from "drizzle-kit";
 
+process.loadEnvFile?.(".dev.vars");
+
 export default defineConfig({
 	schema: "./src/lib/db/schema.ts",
 	out: "./migrations",
