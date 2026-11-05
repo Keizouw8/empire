@@ -6,8 +6,7 @@
 		"types": [
 			"$app/types",
 			"./src/worker-configuration.d.ts",
-			"node",
-			"bun"
+			"node"
 		]
 	},
 	"include": ["src", "vite.config.ts", "drizzle.config.ts"],
