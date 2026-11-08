@@ -12,7 +12,7 @@
 				body: JSON.stringify({ name }),
 				headers: { "Content-Type": "application/json" }
 			});
-			if(!res.ok) throw new Error(await res.text().catch(() => "") || `Request failed with status ${res.status}`);
+			if(!res.ok) throw new Error((await res.json() as { message: string })?.message ?? `Request failed with status ${res.status}`);
 			let { success, id }: { success: boolean, id: string } = await res.json();
 			if(!success) throw new Error("Failed to create room");
 			goto(`/room/${id}`);
