@@ -1,14 +1,14 @@
+import { env as cfEnv } from "cloudflare:workers";
+import { getRequestEvent } from "$app/server";
+import type { RequestEvent } from "@sveltejs/kit";
+import { drizzle } from "drizzle-orm/d1";
 import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { sveltekitCookies } from "better-auth/svelte-kit";
-import { drizzle } from "drizzle-orm/d1";
-import { getRequestEvent } from "$app/server";
-import { env as cfEnv } from "cloudflare:workers";
-import type { RequestEvent } from "@sveltejs/kit";
+import { createEmailVerificationToken } from "better-auth/api";
 
 import { users, accounts, sessions, verification } from "./db/schema";
 import sendEmail from "./email.ts";
-import { createEmailVerificationToken } from "better-auth/api";
 
 let cachedAuth: App.Auth | undefined;
 let cachedDb: D1Database | undefined;
@@ -16,7 +16,7 @@ let cachedDb: D1Database | undefined;
 export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions) {
 	const { d1, secret, baseURL } = resolveAuthContext(source);
 	if (!d1) throw new Error("Database not found.");
-	if (!options && d1 === cachedDb && cachedAuth) return cachedAuth;
+	if (!options && d1 == cachedDb && cachedAuth) return cachedAuth;
 
 	const db = drizzle(d1);
 	const instance = betterAuth({
@@ -69,7 +69,7 @@ export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions)
 					text: `A user tried to sign up with email: ${user.email}. If this was not you, consider resetting your password.`
 				});
 				let token = await createEmailVerificationToken(secret!, user.email);
-				sendVerificationEmail(user.email, `${baseURL}/verify-email?token=${token}&callbackURL=%2F`);
+				await sendVerificationEmail(user.email, `${baseURL}/verify-email?token=${token}&callbackURL=%2F`);
 			},
 			async sendResetPassword({ user, url }) {
 				await sendEmail({

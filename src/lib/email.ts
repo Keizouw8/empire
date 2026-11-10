@@ -9,5 +9,7 @@ export function resend() {
 
 export default async function sendEmail(params: { from?: string, to: string, subject: string, text: string } | { from?: string, to: string, subject: string, html: string }) {
 	let from = (cfEnv as any)?.EMAIL_FROM || process.env?.EMAIL_FROM || "";
-	return await resend().emails.send({ from, ...params });
+	const response = await resend().emails.send({ from, ...params });
+	if (response.error) throw new Error(`Resend error: ${response.error.message} (${response.error.name})`);
+	return response;
 }

@@ -43,7 +43,7 @@ export const accounts = sqliteTable("accounts", {
 });
 
 export const verification = sqliteTable("verification", {
-	id: text("id").primaryKey(),
+	id: text("id").primaryKey().$defaultFn(() => uuidv7()),
 	identifier: text("identifier").notNull(),
 	value: text("value").notNull(),
 	expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),

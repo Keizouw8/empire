@@ -13,9 +13,10 @@ declare global {
 		interface Locals {
 			user: User | null;
 			session: Session | null;
+			tokenData: any;
 			room: typeof import("$lib/db/schema").rooms.$inferSelect & {
 				members: (typeof import("$lib/db/schema").users.$inferSelect)[]
-			}
+			};
 		}
 
 		type Auth = ReturnType<typeof import("$lib/auth").createAuth>;
