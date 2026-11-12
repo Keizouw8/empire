@@ -3,6 +3,29 @@
     let { data } = $props();
     let isOwner = $derived(data.room.ownerId == data.user.id);
 
+    let socket: WebSocket | null = $state(null);
+    let isConnected = $state(false);
+
+	$effect(function(){
+		let ws = new WebSocket(`/room/${data.room.id}/ws`);
+
+		ws.onmessage = function(event){
+			console.log(event.data);
+		}
+		
+		ws.onopen = function(){
+			isConnected = true;
+			socket = ws;
+		}
+		
+		ws.onclose = function(){
+			isConnected = false;
+			socket = null;
+		}
+		
+		return ws.close;
+	});
+
     async function addMember(){
    		let email = prompt("User email")
 		if (!email) return;
