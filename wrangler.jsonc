@@ -27,15 +27,24 @@
 			"migrations_dir": "./migrations"
 		}
 	],
-	"vars": {
-		"EMAIL_FROM": "Madum Empire <noreply@empire.madum.cc>"
-	},
 	"r2_buckets": [
 		{
 			"bucket_name": "empire",
 			"binding": "r2"
 		}
 	],
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "DO",
+				"class_name": "GameRoom",
+				"script_name": "empire-do"
+			}
+		]
+	},
+	"vars": {
+		"EMAIL_FROM": "Madum Empire <noreply@empire.madum.cc>"
+	},
 	"secrets": {
 		"required": ["BETTER_AUTH_SECRET", "RESEND_API_KEY", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]
 	}

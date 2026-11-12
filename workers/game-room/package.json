@@ -1,0 +1,11 @@
+{
+	"name": "game-room",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy",
+		"cf-typegen": "wrangler types ./worker-configuration.d.ts"
+	}
+}
