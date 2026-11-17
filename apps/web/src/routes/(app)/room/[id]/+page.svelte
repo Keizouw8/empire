@@ -60,8 +60,6 @@
 </script>
 <h1>{roomInfo.name}</h1>
 <h2>members</h2>
-<button onclick={() => send("ping")}>ping</button>
-<button onclick={() => send("echo", { message: prompt("message") ?? "body" })}>echo</button>
 {#if isOwner}
 	<button onclick={addMember}>add member</button>
 	<button>kick member</button>

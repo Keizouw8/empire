@@ -35,12 +35,26 @@ export class GameRoom extends DurableObject implements ClientHandlers {
 		this.send(ws, "echo", { message: `Echo (${this.getUUID(ws)}): ${message}` });
 	}
 
+	async refreshRoom() {
+		let updated = await this.db.query.rooms.findFirst({ where: { id: this.info.id }, with: { members: true } });
+		if (!updated) return await this.destroy();
+		this.info = updated;
+		this.broadcast("info", { info: this.info });
+	}
+
 	send<E extends keyof ServerPayloads>(
 		ws: WebSocket,
 		event: E,
 		...[payload]: ServerPayloads[E] extends void ? [payload?: undefined] : [payload: ServerPayloads[E]]
 	) {
 		ws.send(JSON.stringify({ event, payload }));
+	}
+
+	broadcast<E extends keyof ServerPayloads>(
+		event: E,
+		...[payload]: ServerPayloads[E] extends void ? [payload?: undefined] : [payload: ServerPayloads[E]]
+	) {
+		for (let ws of this.ctx.getWebSockets()) this.send(ws, event, ...payload as any);
 	}
 
 	getUUID(ws: WebSocket) {
@@ -70,5 +84,12 @@ export class GameRoom extends DurableObject implements ClientHandlers {
 
 	async webSocketClose(ws: WebSocket, code: number, reason: string) {
 		console.log(`${this.getUUID(ws)} left with code ${code}: ${reason}`);
+	}
+
+	async destroy() {
+		for (let ws of this.ctx.getWebSockets()) ws.close(1000, "DO destroyed");
+		await this.ctx.storage.deleteAlarm();
+		await this.ctx.storage.deleteAll();
+		this.ctx.abort("Durable Object destroyed", { retryAlarm: false });
 	}
 }

@@ -30,6 +30,7 @@
         "resend": "^6.35.0",
       },
       "devDependencies": {
+        "@empire/game-room": "workspace:*",
         "@sveltejs/adapter-auto": "^8.0.0",
         "@sveltejs/adapter-cloudflare": "^8.0.1",
         "@sveltejs/kit": "^3.0.0",
