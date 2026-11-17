@@ -12,6 +12,7 @@ export interface ClientPayloads {
 	
 export interface ServerPayloads {
 	pong: void;
+	leave: void;
 	echo: EchoPayload;
 	info: InfoPayload;
 };
