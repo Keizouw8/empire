@@ -8,7 +8,7 @@
 	},
 	"d1_databases": [
 		{
-			"binding": "db",
+			"binding": "d1",
 			"database_name": "d1-empire",
 			"database_id": "3dd4e7f4-42ea-470b-a09f-7c6b0447dbd4"
 		}
@@ -23,7 +23,7 @@
 	"durable_objects": {
 		"bindings": [
 			{
-				"name": "DO",
+				"name": "do",
 				"class_name": "GameRoom"
 			}
 		]

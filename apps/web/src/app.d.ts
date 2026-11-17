@@ -27,7 +27,7 @@ declare global {
 			| {
 					platform?: Platform;
 					env?: Partial<Platform["env"]>;
-					db?: D1Database;
+					d1?: D1Database;
 					[key: string]: any;
 			  }
 			| undefined;

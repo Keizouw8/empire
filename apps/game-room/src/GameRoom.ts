@@ -42,7 +42,7 @@ export class GameRoom extends DurableObject implements ClientHandlers {
 		super(ctx, env);
 		this.dev = env.ENVIRONMENT as string == "development";
 		this.ctx.blockConcurrencyWhile(async () => {
-			this.d1 = getDB(env.db);
+			this.d1 = getDB(env.d1);
 			this.info = (await this.d1.query.rooms.findFirst({ where: { id: ctx.id.name }, with: { members: true } }))!;
 			migrate(this.db, migrations);
 		});

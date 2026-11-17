@@ -6,6 +6,6 @@ export interface GameRoomDO extends DurableObject {
 }
 
 export function getGameRoom(roomId: string): DurableObjectStub<GameRoomDO> {
-	if (!env?.DO) throw new Error("DO binding not found");
-	return env.DO.get(env.DO.idFromName(roomId)) as DurableObjectStub<GameRoomDO>;
+	if (!env?.do) throw new Error("do binding not found");
+	return env.do.get(env.do.idFromName(roomId)) as DurableObjectStub<GameRoomDO>;
 }

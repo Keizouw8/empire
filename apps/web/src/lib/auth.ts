@@ -138,7 +138,7 @@ function resolveAuthContext(source?: App.AuthSource): {
 	let secret: string | undefined;
 	let baseURL: string | undefined;
 
-	// 1. Direct D1Database binding instance (e.g. platform.env.db)
+	// 1. Direct D1Database binding instance (e.g. platform.env.d1)
 	if (
 		source &&
 		typeof (source as D1Database).prepare === "function" &&
@@ -153,7 +153,7 @@ function resolveAuthContext(source?: App.AuthSource): {
 		("platform" in source || "url" in source || "request" in source)
 	) {
 		const event = source as RequestEvent;
-		d1 = event.platform?.env?.db;
+		d1 = event.platform?.env?.d1;
 		secret = event.platform?.env?.BETTER_AUTH_SECRET;
 		baseURL = event.url?.origin;
 	}
@@ -165,13 +165,13 @@ function resolveAuthContext(source?: App.AuthSource): {
 		(source as App.Platform).env
 	) {
 		const platform = source as App.Platform;
-		d1 = platform.env?.db;
+		d1 = platform.env?.d1;
 		secret = platform.env?.BETTER_AUTH_SECRET;
 	}
 	// 4. Platform env object
-	else if (source && typeof source === "object" && "db" in source) {
+	else if (source && typeof source === "object" && "d1" in source) {
 		const env = source as App.Platform["env"];
-		d1 = env.db;
+		d1 = env.d1;
 		secret = env.BETTER_AUTH_SECRET;
 	}
 
@@ -180,7 +180,7 @@ function resolveAuthContext(source?: App.AuthSource): {
 		try {
 			const event = getRequestEvent();
 			if (event) {
-				d1 = event.platform?.env?.db;
+				d1 = event.platform?.env?.d1;
 				secret = secret ?? event.platform?.env?.BETTER_AUTH_SECRET;
 				baseURL = baseURL ?? event.url?.origin;
 			}
@@ -192,8 +192,8 @@ function resolveAuthContext(source?: App.AuthSource): {
 	// 6. Try cloudflare:workers env module (for Cloudflare Workers runtime, wrangler dev, and production)
 	if (!d1) {
 		try {
-			if (cfEnv?.db) {
-				d1 = cfEnv.db;
+			if (cfEnv?.d1) {
+				d1 = cfEnv.d1;
 				secret = secret ?? cfEnv.BETTER_AUTH_SECRET;
 			}
 		} catch {
