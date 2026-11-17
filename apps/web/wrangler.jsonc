@@ -23,7 +23,7 @@
 	],
 	"r2_buckets": [
 		{
-			"bucket_name": "empire",
+			"bucket_name": "empire-r2",
 			"binding": "r2"
 		}
 	],
