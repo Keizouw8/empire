@@ -20,6 +20,14 @@
 		pong() { console.log("pong") }
 	};
 
+	async function changeRoomName(name: string){
+		await fetch(`/api/room/${roomInfo.id}/setname`, {
+			method: "POST",
+			body: JSON.stringify({ name }),
+			headers: { "Content-Type": "application/json" }
+		});
+	}
+
 	async function addMember(){
    		let email = prompt("User email")
 		if (!email) return;
@@ -58,11 +66,14 @@
 		socket?.send(JSON.stringify({ event, payload }));
     }
 </script>
-<h1>{roomInfo.name}</h1>
-<h2>members</h2>
 {#if isOwner}
+	<h1 onblur={e => changeRoomName(e.currentTarget.innerText)} onkeydown={e => e.key == "Enter" && e.currentTarget.blur()} bind:innerText={roomInfo.name} contenteditable></h1>
+	<h2>members</h2>
 	<button onclick={addMember}>add member</button>
 	<button>kick member</button>
+{:else}
+	<h1>{roomInfo.name}</h1>
+	<h2>members</h2>
 {/if}
 {#each roomInfo.members as member}
 	<div style="display: flex; align-items: center;">

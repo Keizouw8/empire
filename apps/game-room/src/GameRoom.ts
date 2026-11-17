@@ -54,7 +54,7 @@ export class GameRoom extends DurableObject implements ClientHandlers {
 		event: E,
 		...[payload]: ServerPayloads[E] extends void ? [payload?: undefined] : [payload: ServerPayloads[E]]
 	) {
-		for (let ws of this.ctx.getWebSockets()) this.send(ws, event, ...payload as any);
+		for (let ws of this.ctx.getWebSockets()) this.send(ws, event, payload as any);
 	}
 
 	getUUID(ws: WebSocket) {
