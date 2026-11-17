@@ -4,8 +4,7 @@
 	"main": "src/index.ts",
 	"compatibility_date": "2026-10-19",
 	"vars": {
-		"ENVIRONMENT": "production",
-		"SKIP_DEPENDENCY_INSTALL": "true"
+		"ENVIRONMENT": "production"
 	},
 	"d1_databases": [
 		{

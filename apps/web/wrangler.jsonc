@@ -38,7 +38,6 @@
 	},
 	"vars": {
 		"ENVIRONMENT": "production",
-		"SKIP_DEPENDENCY_INSTALL": "true",
 		"EMAIL_FROM": "Madum Empire <noreply@empire.madum.cc>"
 	},
 	"secrets": {
