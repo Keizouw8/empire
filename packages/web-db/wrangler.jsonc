@@ -5,8 +5,8 @@
 	"d1_databases": [
 		{
 			"binding": "d1",
-			"database_name": "d1-empire",
-			"database_id": "3dd4e7f4-42ea-470b-a09f-7c6b0447dbd4",
+			"database_name": "empire-d1",
+			"database_id": "4bff9f6e-f197-4de7-9058-03c752b42497",
 			"migrations_pattern": "./migrations/*/migration.sql",
 			"migrations_dir": "./migrations"
 		}
