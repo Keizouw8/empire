@@ -97,7 +97,7 @@ export class GameRoom extends DurableObject implements ClientHandlers {
 	async destroy() {
 		this.broadcast("leave");
 		await this.ctx.storage.deleteAlarm();
-		await this.ctx.storage.deleteAll();
 		this.ctx.getWebSockets().forEach(ws => ws.close(1000, "room deleted"));
+		await this.ctx.storage.deleteAll();
 	}
 }

@@ -15,8 +15,10 @@
       "dependencies": {
         "@empire/database": "workspace:*",
         "@empire/shared": "workspace:*",
+        "drizzle-orm": "^1.0.0-rc.5",
       },
       "devDependencies": {
+        "drizzle-kit": "^1.0.0-rc.5",
         "wrangler": "^4.151.3",
       },
     },
