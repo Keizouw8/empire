@@ -1,7 +1,7 @@
 import { env } from "cloudflare:workers";
 import type { RequestHandler } from "./$types";
 import { error } from "@sveltejs/kit";
-import { getDB, users } from "@empire/database";
+import { getDB, users } from "@empire/web-db";
 import { eq } from "drizzle-orm";
 
 export const POST: RequestHandler = async function ({ locals: { user }, request }) {

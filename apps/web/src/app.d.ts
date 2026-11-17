@@ -2,7 +2,7 @@
 // for information about these interfaces
 import type { Session, User } from "better-auth";
 import type { RequestEvent } from "@sveltejs/kit";
-import { users, sessions, accounts, verification, type RoomWithMembers } from "@empire/database";
+import { users, sessions, accounts, verification, type RoomWithMembers } from "@empire/web-db";
 
 declare global {
 	namespace App {

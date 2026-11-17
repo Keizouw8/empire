@@ -1,5 +1,5 @@
 {
-	"name": "@empire/database",
+	"name": "@empire/web-db",
 	"private": true,
 	"type": "module",
 	"main": "./src/index.ts",

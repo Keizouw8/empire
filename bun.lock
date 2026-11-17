@@ -13,20 +13,21 @@
       "name": "@empire/game-room",
       "version": "0.0.1",
       "dependencies": {
-        "@empire/database": "workspace:*",
+        "@empire/game-db": "workspace:*",
         "@empire/shared": "workspace:*",
+        "@empire/web-db": "workspace:*",
         "drizzle-orm": "^1.0.0-rc.5",
       },
       "devDependencies": {
-        "drizzle-kit": "^1.0.0-rc.5",
         "wrangler": "^4.151.3",
       },
     },
     "apps/web": {
       "name": "@empire/web",
       "dependencies": {
-        "@empire/database": "workspace:*",
+        "@empire/game-db": "workspace:*",
         "@empire/shared": "workspace:*",
+        "@empire/web-db": "workspace:*",
         "better-auth": "^1.7.12",
         "drizzle-orm": "^1.0.0-rc.5",
         "resend": "^6.35.0",
@@ -45,8 +46,21 @@
         "wrangler": "^4.151.3",
       },
     },
-    "packages/database": {
-      "name": "@empire/database",
+    "packages/game-db": {
+      "name": "@empire/game-db",
+      "dependencies": {
+        "drizzle-orm": "^1.0.0-rc.5",
+      },
+      "devDependencies": {
+        "drizzle-kit": "^1.0.0-rc.5",
+        "typescript": "^6.0.3",
+      },
+    },
+    "packages/shared": {
+      "name": "@empire/shared",
+    },
+    "packages/web-db": {
+      "name": "@empire/web-db",
       "dependencies": {
         "drizzle-orm": "^1.0.0-rc.5",
         "uuidv7": "^1.2.1",
@@ -57,9 +71,6 @@
         "typescript": "^6.0.3",
         "wrangler": "^4.151.3",
       },
-    },
-    "packages/shared": {
-      "name": "@empire/shared",
     },
   },
   "packages": {
@@ -107,13 +118,15 @@
 
     "@emnapi/wasi-threads": ["@emnapi/wasi-threads@2.2.0", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-JP7OYH38Q7+pyTAe14raZHLQIK7BDKbdwji+Xi3pcd/6QkJYQH3SX4wu6EplGrGJWRepoNzedfm0G3B9Z4e9Rw=="],
 
-    "@empire/database": ["@empire/database@workspace:packages/database"],
+    "@empire/game-db": ["@empire/game-db@workspace:packages/game-db"],
 
     "@empire/game-room": ["@empire/game-room@workspace:apps/game-room"],
 
     "@empire/shared": ["@empire/shared@workspace:packages/shared"],
 
     "@empire/web": ["@empire/web@workspace:apps/web"],
+
+    "@empire/web-db": ["@empire/web-db@workspace:packages/web-db"],
 
     "@esbuild/aix-ppc64": ["@esbuild/aix-ppc64@0.25.12", "", { "os": "aix", "cpu": "ppc64" }, "sha512-Hhmwd6CInZ3dwpuGTF8fJG6yoWmsToE+vYgD4nytZVxcu1ulHpUQRAB1UJ8+N1Am3Mz4+xOByoQoSZf4D+CpkA=="],
 

@@ -1,0 +1,450 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "id": "5777517b-dff6-4d75-addf-39e55f928182",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "ddl": [
+    {
+      "name": "armies",
+      "entityType": "tables"
+    },
+    {
+      "name": "empire_members",
+      "entityType": "tables"
+    },
+    {
+      "name": "empire_territories",
+      "entityType": "tables"
+    },
+    {
+      "name": "empires",
+      "entityType": "tables"
+    },
+    {
+      "name": "players",
+      "entityType": "tables"
+    },
+    {
+      "name": "territories",
+      "entityType": "tables"
+    },
+    {
+      "name": "territory_edges",
+      "entityType": "tables"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "armies"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "armies"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "empire_id",
+      "entityType": "columns",
+      "table": "armies"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "territory_id",
+      "entityType": "columns",
+      "table": "armies"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "1",
+      "generated": null,
+      "name": "population",
+      "entityType": "columns",
+      "table": "armies"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "empire_id",
+      "entityType": "columns",
+      "table": "empire_members"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "player_id",
+      "entityType": "columns",
+      "table": "empire_members"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "empire_id",
+      "entityType": "columns",
+      "table": "empire_territories"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "territory_id",
+      "entityType": "columns",
+      "table": "empire_territories"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "empires"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "empires"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "color",
+      "entityType": "columns",
+      "table": "empires"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "owner_id",
+      "entityType": "columns",
+      "table": "empires"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "players"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "territories"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "territories"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "1",
+      "generated": null,
+      "name": "population",
+      "entityType": "columns",
+      "table": "territories"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "1",
+      "generated": null,
+      "name": "max_population",
+      "entityType": "columns",
+      "table": "territories"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "from_id",
+      "entityType": "columns",
+      "table": "territory_edges"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "to_id",
+      "entityType": "columns",
+      "table": "territory_edges"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "1",
+      "generated": null,
+      "name": "length",
+      "entityType": "columns",
+      "table": "territory_edges"
+    },
+    {
+      "columns": [
+        "empire_id"
+      ],
+      "tableTo": "empires",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_armies_empire_id_empires_id_fk",
+      "entityType": "fks",
+      "table": "armies"
+    },
+    {
+      "columns": [
+        "territory_id"
+      ],
+      "tableTo": "territories",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_armies_territory_id_territories_id_fk",
+      "entityType": "fks",
+      "table": "armies"
+    },
+    {
+      "columns": [
+        "empire_id"
+      ],
+      "tableTo": "empires",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_empire_members_empire_id_empires_id_fk",
+      "entityType": "fks",
+      "table": "empire_members"
+    },
+    {
+      "columns": [
+        "player_id"
+      ],
+      "tableTo": "players",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_empire_members_player_id_players_id_fk",
+      "entityType": "fks",
+      "table": "empire_members"
+    },
+    {
+      "columns": [
+        "empire_id"
+      ],
+      "tableTo": "empires",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_empire_territories_empire_id_empires_id_fk",
+      "entityType": "fks",
+      "table": "empire_territories"
+    },
+    {
+      "columns": [
+        "territory_id"
+      ],
+      "tableTo": "territories",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_empire_territories_territory_id_territories_id_fk",
+      "entityType": "fks",
+      "table": "empire_territories"
+    },
+    {
+      "columns": [
+        "owner_id"
+      ],
+      "tableTo": "players",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "SET NULL",
+      "nameExplicit": false,
+      "name": "fk_empires_owner_id_players_id_fk",
+      "entityType": "fks",
+      "table": "empires"
+    },
+    {
+      "columns": [
+        "from_id"
+      ],
+      "tableTo": "territories",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_territory_edges_from_id_territories_id_fk",
+      "entityType": "fks",
+      "table": "territory_edges"
+    },
+    {
+      "columns": [
+        "to_id"
+      ],
+      "tableTo": "territories",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "nameExplicit": false,
+      "name": "fk_territory_edges_to_id_territories_id_fk",
+      "entityType": "fks",
+      "table": "territory_edges"
+    },
+    {
+      "columns": [
+        "empire_id",
+        "player_id"
+      ],
+      "nameExplicit": false,
+      "name": "empire_members_pk",
+      "entityType": "pks",
+      "table": "empire_members"
+    },
+    {
+      "columns": [
+        "empire_id",
+        "territory_id"
+      ],
+      "nameExplicit": false,
+      "name": "empire_territories_pk",
+      "entityType": "pks",
+      "table": "empire_territories"
+    },
+    {
+      "columns": [
+        "from_id",
+        "to_id"
+      ],
+      "nameExplicit": false,
+      "name": "territory_edges_pk",
+      "entityType": "pks",
+      "table": "territory_edges"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "armies_pk",
+      "table": "armies",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "empires_pk",
+      "table": "empires",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "players_pk",
+      "table": "players",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "territories_pk",
+      "table": "territories",
+      "entityType": "pks"
+    }
+  ],
+  "renames": []
+}

@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { getDB, rooms } from "@empire/database";
+import { getDB, rooms } from "@empire/web-db";
 import { eq } from "drizzle-orm";
 import { getGameRoom } from "#lib/gameRoom.ts";
 

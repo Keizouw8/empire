@@ -17,10 +17,11 @@
 		"deploy": "bun run --filter @empire/game-room deploy && bun run --filter @empire/web deploy",
 		"deploy:do": "bun run --filter @empire/game-room deploy",
 		"deploy:web": "bun run --filter @empire/web deploy",
-		"cf-typegen": "bun run --filter @empire/game-room cf-typegen && bun run --filter @empire/web cf-typegen && bun run --filter @empire/database cf-typegen",
-		"db:generate": "bun run --filter @empire/database generate",
-		"db:migrate:local": "bun run --filter @empire/database migrate:local",
-		"db:migrate:remote": "bun run --filter @empire/database migrate:remote"
+		"cf-typegen": "bun run --filter @empire/game-room cf-typegen && bun run --filter @empire/web cf-typegen && bun run --filter @empire/web-db cf-typegen",
+		"db:generate:web": "bun run --filter @empire/web-db generate",
+		"db:generate:game": "bun run --filter @empire/game-db generate",
+		"db:migrate:local": "bun run --filter @empire/web-db migrate:local",
+		"db:migrate:remote": "bun run --filter @empire/web-db migrate:remote"
 	},
 	"devDependencies": {
 		"concurrently": "^10.0.7",

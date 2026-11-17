@@ -1,6 +1,6 @@
 import { error, redirect } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { getDB, roomMembers } from "@empire/database";
+import { getDB, roomMembers } from "@empire/web-db";
 import { getGameRoom } from "#lib/gameRoom.ts";
 
 export const GET: RequestHandler = async function ({ locals: { tokenData } }) {

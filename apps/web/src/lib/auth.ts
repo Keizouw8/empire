@@ -7,7 +7,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { sveltekitCookies } from "better-auth/svelte-kit";
 import { createEmailVerificationToken } from "better-auth/api";
 
-import { users, accounts, sessions, verification } from "@empire/database";
+import { users, accounts, sessions, verification } from "@empire/web-db";
 import sendEmail from "./email.ts";
 
 let cachedAuth: App.Auth | undefined;

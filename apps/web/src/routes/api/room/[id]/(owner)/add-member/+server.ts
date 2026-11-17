@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { getDB } from "@empire/database";
+import { getDB } from "@empire/web-db";
 import sendEmail from "#lib/email.ts";
 import { createVerificationToken } from "#lib/verificationToken.ts";
 

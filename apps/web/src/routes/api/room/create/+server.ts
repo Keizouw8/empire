@@ -1,6 +1,6 @@
 import type { RequestHandler } from "./$types";
 import { error } from "@sveltejs/kit";
-import { getDB, rooms, roomMembers } from "@empire/database";
+import { getDB, rooms, roomMembers } from "@empire/web-db";
 
 export const POST: RequestHandler = async function ({ request, locals: { user } }) {
 	let db = getDB();

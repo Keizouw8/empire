@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import { getDB, verification } from "@empire/database";
+import { getDB, verification } from "@empire/web-db";
 import { error } from "@sveltejs/kit";
 import { auth } from "./auth";
 

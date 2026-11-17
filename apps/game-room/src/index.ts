@@ -1,9 +1,9 @@
 export { GameRoom } from "./GameRoom";
-import { getDB } from "@empire/database";
+import { getDB } from "@empire/web-db";
 
 export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {		
-		if (env.ENVIRONMENT == "development") {
+		if ((env.ENVIRONMENT as string) == "development") {
 			let match = new URL(request.url).pathname.match(/\/([^/]+)/);
 			if (match) {
 				let [, id] = match;

@@ -1,5 +1,5 @@
 import type { RequestHandler } from "./$types";
-import { getDB, roomMembers } from "@empire/database";
+import { getDB, roomMembers } from "@empire/web-db";
 import { and, eq } from "drizzle-orm";
 import { getGameRoom } from "#lib/gameRoom.ts";
 import { error } from "@sveltejs/kit";

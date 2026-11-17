@@ -1,4 +1,4 @@
-import { getDB } from "@empire/database";
+import { getDB } from "@empire/web-db";
 import { error } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 

@@ -13,6 +13,13 @@
 			"database_id": "3dd4e7f4-42ea-470b-a09f-7c6b0447dbd4"
 		}
 	],
+	"rules": [
+		{
+			"type": "Text",
+			"globs": ["**/*.sql"],
+			"fallthrough": true
+		}
+	],
 	"durable_objects": {
 		"bindings": [
 			{

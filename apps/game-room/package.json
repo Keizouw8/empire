@@ -15,7 +15,9 @@
 	},
 	"dependencies": {
 		"@empire/shared": "workspace:*",
-		"@empire/database": "workspace:*"
+		"@empire/web-db": "workspace:*",
+		"@empire/game-db": "workspace:*",
+		"drizzle-orm": "^1.0.0-rc.5"
 	},
 	"devDependencies": {
 		"wrangler": "^4.151.3"

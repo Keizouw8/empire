@@ -1,7 +1,7 @@
 import { error } from "@sveltejs/kit";
 import { type Handle } from "@sveltejs/kit/hooks";
 
-import { getDB } from "@empire/database";
+import { getDB } from "@empire/web-db";
 
 export const handle: Handle = async ({ event, resolve }) => {
 	let { params: { id }, locals: { user } } = event;

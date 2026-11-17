@@ -1,4 +1,4 @@
-import { getDB, verification } from "@empire/database";
+import { getDB, verification } from "@empire/web-db";
 import { error } from "@sveltejs/kit";
 import { type Handle } from "@sveltejs/kit/hooks";
 import { eq } from "drizzle-orm";

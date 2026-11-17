@@ -32,7 +32,8 @@
 	},
 	"dependencies": {
 		"@empire/shared": "workspace:*",
-		"@empire/database": "workspace:*",
+		"@empire/web-db": "workspace:*",
+		"@empire/game-db": "workspace:*",
 		"better-auth": "^1.7.12",
 		"drizzle-orm": "^1.0.0-rc.5",
 		"resend": "^6.35.0"
