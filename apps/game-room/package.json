@@ -1,0 +1,19 @@
+{
+	"name": "@empire/game-room",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"cf-typegen": "wrangler types ./src/worker-configuration.d.ts",
+		"dev": "wrangler dev --env-file ../../.dev.vars --persist-to ../../.wrangler/state",
+		"deploy": "wrangler deploy"
+	},
+	"dependencies": {
+		"@empire/shared": "workspace:*",
+		"@empire/database": "workspace:*"
+	},
+	"devDependencies": {
+		"wrangler": "^4.151.3"
+	}
+}

@@ -1,0 +1,39 @@
+{
+	"name": "@empire/web",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"cf-typegen": "wrangler types ./src/worker-configuration.d.ts",
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "bun run build && wrangler dev --env-file ../../.dev.vars  --persist-to ../../.wrangler/state",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"deploy": "wrangler deploy"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^8.0.0",
+		"@sveltejs/adapter-cloudflare": "^8.0.1",
+		"@sveltejs/kit": "^3.0.0",
+		"@sveltejs/vite-plugin-svelte": "^7.2.0",
+		"@types/node": "^26.6.5",
+		"svelte": "^5.57.1",
+		"svelte-check": "^4.6.0",
+		"typescript": "^6.0.3",
+		"vite": "^8.3.0",
+		"wrangler": "^4.151.3"
+	},
+	"imports": {
+		"#lib": "./src/lib/index.ts",
+		"#lib/*": "./src/lib/*"
+	},
+	"dependencies": {
+		"@empire/shared": "workspace:*",
+		"@empire/database": "workspace:*",
+		"better-auth": "^1.7.12",
+		"drizzle-orm": "^1.0.0-rc.5",
+		"resend": "^6.35.0"
+	}
+}

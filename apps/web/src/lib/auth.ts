@@ -1,0 +1,213 @@
+import { env as cfEnv } from "cloudflare:workers";
+import { getRequestEvent } from "$app/server";
+import type { RequestEvent } from "@sveltejs/kit";
+import { drizzle } from "drizzle-orm/d1";
+import { betterAuth, type BetterAuthOptions } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { sveltekitCookies } from "better-auth/svelte-kit";
+import { createEmailVerificationToken } from "better-auth/api";
+
+import { users, accounts, sessions, verification } from "@empire/database";
+import sendEmail from "./email.ts";
+
+let cachedAuth: App.Auth | undefined;
+let cachedDb: D1Database | undefined;
+
+export function createAuth(source?: App.AuthSource, options?: BetterAuthOptions) {
+	const { d1, secret, baseURL } = resolveAuthContext(source);
+	if (!d1) throw new Error("Database not found.");
+	if (!options && d1 == cachedDb && cachedAuth) return cachedAuth;
+
+	const db = drizzle(d1);
+	const instance = betterAuth({
+		database: drizzleAdapter(db, {
+			provider: "sqlite",
+			schema: {
+				user: users,
+				account: accounts,
+				session: sessions,
+				verification
+			}
+		}),
+		secret, baseURL,
+		account: {
+			accountLinking: {
+				enabled: true,
+				trustedProviders: ["google"]
+			}
+		},
+		user: {
+			deleteUser: {
+				enabled: true,
+				async sendDeleteAccountVerification({ user, url }) {
+					await sendEmail({
+						to: user.email,
+						subject: "Delete Account",
+						html: `Click the link to delete your account: <a href="${url}">delete account</a>`
+					});
+				}
+			},
+			changeEmail: {
+				enabled: true,
+				async sendChangeEmailConfirmation({ user, newEmail, url }) {
+					await sendEmail({
+						to: user.email,
+						subject: "Approve Email Change",
+						html: `Click the link to approve the change to ${newEmail}: <a href="${url}">approve change</a>`
+					});
+				}
+			}
+		},
+		emailAndPassword: {
+			enabled: true,
+			requireEmailVerification: true,
+			revokeSessionsOnPasswordReset: true,
+			async onExistingUserSignUp({ user }) {
+				if (user.emailVerified) return void await sendEmail({
+					to: user.email,
+					subject: "Security Alert: Duplicate Sign Up",
+					text: `A user tried to sign up with email: ${user.email}. If this was not you, consider resetting your password.`
+				});
+				let token = await createEmailVerificationToken(secret!, user.email);
+				await sendVerificationEmail(user.email, `${baseURL}/verify-email?token=${token}&callbackURL=%2F`);
+			},
+			async sendResetPassword({ user, url }) {
+				await sendEmail({
+					to: user.email,
+					subject: "Reset your password",
+					html: `Click the link to reset your password: <a href="${url}">Reset Password</a>`
+				});
+			}
+		},
+		emailVerification: {
+			autoSignInAfterVerification: true,
+			sendOnSignUp: true,
+			sendOnSignIn: true,
+			async sendVerificationEmail({ user, url }) {
+				await sendVerificationEmail(user.email, url);
+			}
+		},
+		socialProviders: {
+			google: {
+				clientId: (cfEnv as any)?.GOOGLE_CLIENT_ID || process.env?.GOOGLE_CLIENT_ID,
+				clientSecret: (cfEnv as any)?.GOOGLE_CLIENT_SECRET || process.env?.GOOGLE_CLIENT_SECRET
+			}
+		},
+		onAPIError: {
+			onError(error, ctx) {
+				console.error(error, ctx);
+			}
+		},
+		...options,
+		plugins: [
+			...(options?.plugins || []),
+			sveltekitCookies(getRequestEvent)
+		]
+	});
+
+	if (!options) {
+		cachedDb = d1;
+		cachedAuth = instance;
+	}
+
+	return instance;
+}
+
+
+export const auth: App.Auth = new Proxy({} as App.Auth, {
+	get(_target, prop) {
+		const instance = createAuth();
+		const value = instance[prop as keyof typeof instance];
+		return typeof value === "function" ? value.bind(instance) : value;
+	}
+});
+
+async function sendVerificationEmail(to: string, url: string) {
+	return await sendEmail({
+		to, subject: "Verify your email address",
+		html: `Click the link to verify your email: <a href="${url}">Verify Email</a>`
+	});
+}
+
+function resolveAuthContext(source?: App.AuthSource): {
+	d1?: D1Database;
+	secret?: string;
+	baseURL?: string;
+} {
+	let d1: D1Database | undefined;
+	let secret: string | undefined;
+	let baseURL: string | undefined;
+
+	// 1. Direct D1Database binding instance (e.g. platform.env.db)
+	if (
+		source &&
+		typeof (source as D1Database).prepare === "function" &&
+		typeof (source as D1Database).batch === "function"
+	) {
+		d1 = source as D1Database;
+	}
+	// 2. SvelteKit RequestEvent
+	else if (
+		source &&
+		typeof source === "object" &&
+		("platform" in source || "url" in source || "request" in source)
+	) {
+		const event = source as RequestEvent;
+		d1 = event.platform?.env?.db;
+		secret = event.platform?.env?.BETTER_AUTH_SECRET;
+		baseURL = event.url?.origin;
+	}
+	// 3. App.Platform
+	else if (
+		source &&
+		typeof source === "object" &&
+		"env" in source &&
+		(source as App.Platform).env
+	) {
+		const platform = source as App.Platform;
+		d1 = platform.env?.db;
+		secret = platform.env?.BETTER_AUTH_SECRET;
+	}
+	// 4. Platform env object
+	else if (source && typeof source === "object" && "db" in source) {
+		const env = source as App.Platform["env"];
+		d1 = env.db;
+		secret = env.BETTER_AUTH_SECRET;
+	}
+
+	// 5. Try SvelteKit getRequestEvent() if not provided directly
+	if (!d1) {
+		try {
+			const event = getRequestEvent();
+			if (event) {
+				d1 = event.platform?.env?.db;
+				secret = secret ?? event.platform?.env?.BETTER_AUTH_SECRET;
+				baseURL = baseURL ?? event.url?.origin;
+			}
+		} catch {
+			// Outside of active request context
+		}
+	}
+
+	// 6. Try cloudflare:workers env module (for Cloudflare Workers runtime, wrangler dev, and production)
+	if (!d1) {
+		try {
+			if (cfEnv?.db) {
+				d1 = cfEnv.db;
+				secret = secret ?? cfEnv.BETTER_AUTH_SECRET;
+			}
+		} catch {
+			// Outside of Cloudflare runtime
+		}
+	}
+
+	// 7. Environment variable fallbacks
+	if (!secret && typeof process !== "undefined" && process.env?.BETTER_AUTH_SECRET) {
+		secret = process.env.BETTER_AUTH_SECRET;
+	}
+	if (!baseURL && typeof process !== "undefined" && process.env?.BETTER_AUTH_URL) {
+		baseURL = process.env.BETTER_AUTH_URL;
+	}
+
+	return { d1, secret, baseURL };
+}

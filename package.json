@@ -1,52 +1,29 @@
 {
 	"name": "empire",
 	"private": true,
-	"version": "0.0.1",
+	"type": "module",
 	"packageManager": "bun@1.4.4",
 	"workspaces": [
-		"workers/*"
+		"apps/*",
+		"packages/*"
 	],
-	"type": "module",
 	"scripts": {
-		"dev": "concurrently -n \"web,do\" -c \"cyan,magenta\" \"vite dev\" \"bun run --filter game-room dev\"",
-		"dev:web": "vite dev",
-		"dev:do": "bun run --filter game-room dev",
-		"build": "vite build",
-		"preview": "bun run build && wrangler dev",
-		"prepare": "svelte-kit sync || echo ''",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"deploy": "bun run build && wrangler deploy",
-		"deploy:do": "bun run --filter game-room deploy",
-		"deploy:all": "bun run deploy:do && bun run deploy",
-		"cf-typegen": "wrangler types ./src/worker-configuration.d.ts",
-		"cf-typegen:do": "bun run --filter game-room cf-typegen",
-		"db:generate": "drizzle-kit generate",
-		"db:migrate:local": "wrangler d1 migrations apply d1-empire --local",
-		"db:migrate:remote": "wrangler d1 migrations apply d1-empire --remote"
+		"typecheck": "bun run --filter '*' typecheck",
+		"dev": "concurrently -n \"web,do\" -c \"cyan,magenta\" \"bun run --filter @empire/web dev\" \"bun run --filter @empire/game-room dev\"",
+		"dev:do": "bun run --filter @empire/game-room dev",
+		"dev:web": "bun run --filter @empire/web dev",
+		"build": "bun run --filter @empire/web build",
+		"check": "bun run --filter @empire/web check",
+		"deploy": "bun run --filter @empire/game-room deploy && bun run --filter @empire/web deploy",
+		"deploy:do": "bun run --filter @empire/game-room deploy",
+		"deploy:web": "bun run --filter @empire/web deploy",
+		"cf-typegen": "bun run --filter @empire/game-room cf-typegen && bun run --filter @empire/web cf-typegen && bun run --filter @empire/database cf-typegen",
+		"db:generate": "bun run --filter @empire/database generate",
+		"db:migrate:local": "bun run --filter @empire/database migrate:local",
+		"db:migrate:remote": "bun run --filter @empire/database migrate:remote"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^8.0.0",
-		"@sveltejs/adapter-cloudflare": "^8.0.1",
-		"@sveltejs/kit": "^3.0.0",
-		"@sveltejs/vite-plugin-svelte": "^7.2.0",
-		"@types/node": "^26.6.5",
 		"concurrently": "^10.0.7",
-		"drizzle-kit": "^1.0.0-rc.5",
-		"svelte": "^5.57.1",
-		"svelte-check": "^4.6.0",
-		"typescript": "^6.0.3",
-		"vite": "^8.3.0",
-		"wrangler": "^4.151.3"
-	},
-	"imports": {
-		"#lib": "./src/lib/index.js",
-		"#lib/*": "./src/lib/*"
-	},
-	"dependencies": {
-		"better-auth": "^1.7.12",
-		"drizzle-orm": "^1.0.0-rc.5",
-		"resend": "^6.35.0",
-		"uuidv7": "^1.2.1"
+		"typescript": "^6.0.3"
 	}
 }
