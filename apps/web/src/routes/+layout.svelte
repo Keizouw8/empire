@@ -8,3 +8,8 @@
 	<title>empire</title>
 </svelte:head>
 {@render children()}
+<style>
+	:global(html:has(body[inert])){
+		cursor: wait;
+	}
+</style>

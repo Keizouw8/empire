@@ -69,6 +69,6 @@ export class GameRoom extends DurableObject implements ClientHandlers {
 	}
 
 	async webSocketClose(ws: WebSocket, code: number, reason: string) {
-		ws.close(code, reason);
+		console.log(`${this.getUUID(ws)} left with code ${code}: ${reason}`);
 	}
 }
