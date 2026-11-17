@@ -14,8 +14,8 @@
 		"typecheck": "tsc --noEmit",
 		"cf-typegen": "wrangler types ./src/worker-configuration.d.ts",
 		"generate": "drizzle-kit generate",
-		"migrate:local": "wrangler d1 migrations apply d1-empire --local  --persist-to ../../.wrangler/state",
-		"migrate:remote": "wrangler d1 migrations apply d1-empire --remote"
+		"migrate:local": "wrangler d1 migrations apply empire-d1 --local  --persist-to ../../.wrangler/state",
+		"migrate:remote": "wrangler d1 migrations apply empire-d1 --remote"
 	},
 	"devDependencies": {
 		"@types/node": "^26.6.5",
