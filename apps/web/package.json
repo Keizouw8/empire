@@ -20,6 +20,11 @@
 		"@sveltejs/kit": "^3.0.0",
 		"@sveltejs/vite-plugin-svelte": "^7.2.0",
 		"@types/node": "^26.6.5",
+		"@types/geojson": "^7946.0.16",
+		"@types/topojson-client": "^3.1.5",
+		"@types/topojson-specification": "^1.0.5",
+		"@types/d3-selection": "^3.0.12",
+		"@types/d3-zoom": "^3.0.9",
 		"svelte": "^5.57.1",
 		"svelte-check": "^4.6.0",
 		"typescript": "^6.0.3",
@@ -31,11 +36,14 @@
 		"#lib/*": "./src/lib/*"
 	},
 	"dependencies": {
+		"@empire/game-db": "workspace:*",
 		"@empire/shared": "workspace:*",
 		"@empire/web-db": "workspace:*",
-		"@empire/game-db": "workspace:*",
 		"better-auth": "^1.7.12",
+		"d3-selection": "^3.0.1",
+		"d3-zoom": "^3.0.1",
 		"drizzle-orm": "^1.0.0-rc.5",
-		"resend": "^6.35.0"
+		"resend": "^6.35.0",
+		"topojson-client": "^3.1.0"
 	}
 }

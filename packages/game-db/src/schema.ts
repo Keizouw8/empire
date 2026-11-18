@@ -4,6 +4,7 @@ import { sqliteTable, text, integer, primaryKey } from "drizzle-orm/sqlite-core"
 export const players = sqliteTable("players", {
 	id: text("id").primaryKey()
 });
+export type Player = typeof players.$inferSelect;
 
 export const empires = sqliteTable("empires", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
@@ -11,13 +12,16 @@ export const empires = sqliteTable("empires", {
 	color: text("color").notNull().$defaultFn(() => `#${Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, "0")}`),
 	ownerId: text("owner_id").references(() => players.id, { onDelete: "set null" })
 });
+export type Empire = typeof empires.$inferSelect;
 
 export const territories = sqliteTable("territories", {
 	id: text("id").primaryKey(),
 	name: text("name").notNull(),
+	path: text("string").notNull(),
 	population: integer("population").notNull().default(1),
 	maxPopulation: integer("max_population").notNull().default(1)
 });
+export type Territory = typeof territories.$inferSelect;
 
 export const armies = sqliteTable("armies", {
 	id: integer("id").primaryKey({ autoIncrement: true }),
@@ -25,7 +29,8 @@ export const armies = sqliteTable("armies", {
 	empireId: integer("empire_id").notNull().references(() => empires.id, { onDelete: "cascade" }),
 	territoryId: text("territory_id").notNull().references(() => territories.id, { onDelete: "cascade" }),
 	population: integer("population").notNull().default(1)
-});
+}); 
+export type Army = typeof armies.$inferSelect;
 
 export const territoryEdges = sqliteTable("territory_edges", {
 	fromId: text("from_id").notNull().references(() => territories.id, { onDelete: "cascade" }),

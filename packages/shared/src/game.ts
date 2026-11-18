@@ -1,8 +1,7 @@
-export type GameStatus = "active" | "paused";
-
-export interface Territory {
+export interface MapTerritory {
 	id: string;
 	name: string;
+	path: string;
+	neighbors: string[];
 	population: number;
-	adjacentTerritories: string[];
-};
+}
