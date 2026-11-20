@@ -27,6 +27,7 @@
 	<ProfilePicture user={data.user} />
 	{data.user.name}
 </a>
+<a href="/map-editor">map editor</a>
 <h2>rooms</h2>
 <button onclick={createRoom}>create room</button>
 {#each data.user.rooms as room}

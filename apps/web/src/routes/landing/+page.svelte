@@ -1,5 +1,6 @@
 <h1>empire</h1>
 <p>real-time empire conquest game</p>
+<a href="/map-editor">map editor</a>
 <h2>auth</h2>
 <a href="/auth/signin">sign in</a>
 <a href="/auth/signup">sign up</a>
