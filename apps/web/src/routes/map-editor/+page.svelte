@@ -1,17 +1,17 @@
 <script lang="ts">
-	import "#lib/styles/global.css";
 	import * as topojson from "topojson-client";
 	import type { Topology, GeometryCollection } from "topojson-specification";
 	import type { FeatureCollection, Feature, Polygon, MultiPolygon } from "geojson";
 	
+	import "#lib/styles/global.css";
 	import Map from "#lib/components/map.svelte";
+	import FloatingMenu from "#lib/components/floatingMenu.svelte";
 	import type { MapTerritory } from "@empire/shared";
 
 	let territories: MapTerritory[] = $state([]);
 	let focused: MapTerritory | null = $state(null);
 	let hovering: MapTerritory | null = $state(null);
 
-	let UIState = $state({ leftbar: true });
 	let mode = $state(0); // 0: idle, 1: topojson, 2: map;
 
 	// mode 1
@@ -89,11 +89,7 @@
 	}
 </script>
 <Map bind:focused={focused} bind:hovering={hovering} {territories} />
-<div class="floating-menu top left" hidden={!UIState.leftbar}>
-	<div class="split-children">
-		<a href="/">dashboard</a>
-		<button onclick={() => UIState.leftbar = false}>collapse</button>
-	</div>
+<FloatingMenu globalClasses="top left" collapsable={true}>
 	<h1>map editor</h1>
 	{#if mode == 0}
 		<label for="csv">upload map csv</label><br>
@@ -134,25 +130,24 @@
 		</select><br>
 		<button onclick={reset}>cancel</button>
 	{/if}
-</div>
-<button class="top left" onclick={() => UIState.leftbar = true} hidden={UIState.leftbar}>sidebar</button>
+</FloatingMenu>
 {#if focused}
-	<div class="floating-menu top right">
+	<FloatingMenu globalClasses="top right">
 		<h2>{focused.name}</h2>
 		<i>{focused.id}</i>
 		<h3>Population</h3>
 		<p>{focused.population}</p>
 		<h3>neighbors</h3>
 		<span>{focused.neighbors.map(n => territories.find(t => t.id == n)?.name).join(", ")}</span>
-	</div>
+	</FloatingMenu>
 {/if}
 {#if hovering}
-	<div class="floating-menu bottom right">
+	<FloatingMenu globalClasses="bottom right">
 		<h2>{hovering.name}</h2>
 		<i>{hovering.id}</i>
 		<h3>Population</h3>
 		<p>{hovering.population}</p>
 		<h3>neighbors</h3>
 		<span>{hovering.neighbors.map(n => territories.find(t => t.id == n)?.name).join(", ")}</span>
-	</div>
+	</FloatingMenu>
 {/if}
