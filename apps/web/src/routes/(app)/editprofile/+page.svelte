@@ -69,6 +69,7 @@
 		alert(`delete user confirmation sent to ${user.email}`);
 	}
 </script>
+<a href="/" data-sveltekit-reload>dashboard</a>
 <h1>edit profile</h1>
 <p>{user.email}</p>
 <button onclick={changeEmail}>change email</button>
