@@ -1,6 +1,7 @@
 <script lang="ts">
+	import "#lib/styles/global.css";
 	import * as topojson from "topojson-client";
-	import type { Topology, GeometryCollection, Properties } from "topojson-specification";
+	import type { Topology, GeometryCollection } from "topojson-specification";
 	import type { FeatureCollection, Feature, Polygon, MultiPolygon } from "geojson";
 	
 	import Map from "#lib/components/map.svelte";
@@ -88,7 +89,7 @@
 	}
 </script>
 <Map bind:focused={focused} bind:hovering={hovering} {territories} />
-<div class="sidebar top left" hidden={!UIState.leftbar}>
+<div class="floating-menu top left" hidden={!UIState.leftbar}>
 	<div class="split-children">
 		<a href="/">dashboard</a>
 		<button onclick={() => UIState.leftbar = false}>collapse</button>
@@ -136,7 +137,7 @@
 </div>
 <button class="top left" onclick={() => UIState.leftbar = true} hidden={UIState.leftbar}>sidebar</button>
 {#if focused}
-	<div class="sidebar top right">
+	<div class="floating-menu top right">
 		<h2>{focused.name}</h2>
 		<i>{focused.id}</i>
 		<h3>Population</h3>
@@ -146,7 +147,7 @@
 	</div>
 {/if}
 {#if hovering}
-	<div class="sidebar bottom right">
+	<div class="floating-menu bottom right">
 		<h2>{hovering.name}</h2>
 		<i>{hovering.id}</i>
 		<h3>Population</h3>
@@ -155,41 +156,3 @@
 		<span>{hovering.neighbors.map(n => territories.find(t => t.id == n)?.name).join(", ")}</span>
 	</div>
 {/if}
-<style>
-	.top{
-		position: fixed;
-		top: 10px;
-	}
-
-	.bottom{
-		position: fixed;
-		bottom: 10px;
-	}
-
-	.left{
-		position: fixed;
-		left: 10px;
-	}
-
-	.right{
-		position: fixed;
-		right: 10px;
-	}
-	
-	.split-children{
-		display: flex;
-		justify-content: space-between;
-	}
-	
-	.sidebar{
-		display: inline-block;
-		background: white;
-		outline: black solid 2px;
-		padding: 10px;
-		max-width: 400px;
-	}
-
-	[hidden]{
-		display: none !important;
-	}
-</style>

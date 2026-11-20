@@ -1,0 +1,36 @@
+.top{
+	position: fixed;
+	top: 10px;
+}
+
+.bottom{
+	position: fixed;
+	bottom: 10px;
+}
+
+.left{
+	position: fixed;
+	left: 10px;
+}
+
+.right{
+	position: fixed;
+	right: 10px;
+}
+
+.split-children{
+	display: flex;
+	justify-content: space-between;
+}
+
+.floating-menu{
+	display: inline-block;
+	background: white;
+	outline: black solid 2px;
+	padding: 10px;
+	max-width: 400px;
+}
+
+[hidden]{
+	display: none !important;
+}
